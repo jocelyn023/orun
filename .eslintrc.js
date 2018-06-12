@@ -38,6 +38,7 @@ module.exports = {
     'no-trailing-spaces': 0,//一行结束后边不要有空格
     'no-unneeded-ternary': 0,
     'no-eq-null': 0,//禁止对null使用==或!=运算符
+    'no-unused-vars':0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   }

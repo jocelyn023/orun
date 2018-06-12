@@ -17,7 +17,8 @@
 					<el-input
 					    placeholder="密码"
 					    prefix-icon="adminIcons adminIcon-mima"
-					    v-model="psw">
+					    v-model="psw"
+					    type="password">
 					</el-input>
 				</div>
 				<el-row type="flex" justify="start" >
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+import api from '../../api/api.js'
 export default {
   name: 'login',
   data () {
@@ -68,25 +70,51 @@ export default {
       username: '',
       psw: '',
       reg: '',
-      checked: false
+      checked: false,
+      newsListShow: []
     }
+  },
+  mounted: function () {
+  	this.loadCookieFn()
   },
   methods: {
   	loginBtnFn: function () {
   		let that = this
   		let url = `11111`
-  		let loginUrl = url + `?username=` + that.username + `&psw=` + that.psw + `&reg=` + that.reg
-  		console.log(loginUrl)
+  		let parmes = {
+  			username: that.username,
+  			psw: that.psw
+  		}
+  		if (that.checked) {
+  			let parmesStr = JSON.stringify(parmes)
+  			that.setCookieFn('orunMock', parmesStr, 7)
+  		} else {
+  			that.delCookieFn('orunMock')
+  		}
+  		api.JH_news('/getUserMsg', {
+      	username: that.username,
+      	password: that.psw
+      })
+        .then(res => {
+          console.log(res)
+          if (res.data) {
+          	that.$router.push('/register')
+          }
+        })
   	},
   	rememberPsdFn: function () {
   		let that = this
   		that.checked = !that.checked
-  		if (!that.checked) {
-  			that.setCookieFn('1', '2', '3')
-  		}
   	},
   	loadCookieFn: function () {
-			
+  		var that = this
+      let cookieStr = that.getCookieFn('orunMock')
+      if (cookieStr !== '') {
+        cookieStr = JSON.parse(cookieStr)
+        that.username = cookieStr.username
+      	that.psw = cookieStr.psw
+      	that.checked = true
+      }      
   	},
   	getCookieFn: function (cookieName) {
   		if (document.cookie.length > 0) { 
@@ -102,15 +130,15 @@ export default {
     	}  
     	return ''
   	},
-    setCookieFn: function (cookieName, value, expiremMinutes) {  
+    setCookieFn: function (cookieName, value, expiremMinutes) {
 	    var exdate = new Date() 
 	    exdate.setTime(exdate.getTime() + expiremMinutes * 60 * 1000) 
 	    document.cookie = cookieName + `=` + escape(value)+((expiremMinutes == null) ? '' : `;expires=` + exdate.toGMTString())
     },
-    delCookieFn: function (cookieName) {
+    delCookieFn: function (cookieName) {    	
 	    var exp = new Date()
 	    exp.setTime(exp.getTime() - 1)
-	    var cval = this.getCookie(cookieName) 
+	    var cval = this.getCookieFn(cookieName) 
 	    if (cval !== null) {
 	      document.cookie = cookieName + `=` + cval + `;expires=` + exp.toGMTString()
 	    }

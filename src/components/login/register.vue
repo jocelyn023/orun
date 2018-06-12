@@ -10,7 +10,7 @@
 					<el-input
 					    placeholder="手机号"
 					    prefix-icon="el-icon-mobile-phone"
-					    v-model="msg">
+					    v-model="msg.tel">
 					</el-input>
 				</div>
 				<el-row type="flex" justify="start" class="pd-10">
@@ -18,7 +18,7 @@
 					  	<el-input
 							placeholder="验证码"
 							prefix-icon="adminIcons adminIcon-yanzhengma1"
-							v-model="psw">
+							v-model="msg.regMsg">
 						</el-input>
 					</el-col>
 					<el-col :span="8" :xs="8" class="btn">
@@ -29,21 +29,23 @@
 					<el-input
 					    placeholder="密码"
 					    prefix-icon="adminIcons adminIcon-mima"
-					    v-model="psw">
+					    v-model="msg.psw"
+					    type="password">
 					</el-input>
 				</div>
 				<div class="pd-10">
 					<el-input
 					    placeholder="确认密码"
 					    prefix-icon="adminIcons adminIcon-mima"
-					    v-model="psw">
+					    v-model="msg.pswRepeat"
+					    type="password">
 					</el-input>
 				</div>
 				<div class="pd-10">
 					<el-input
 					    placeholder="昵称"
 					    prefix-icon="adminIcons adminIcon-yonghu"
-					    v-model="psw">
+					    v-model="msg.nickName">
 					</el-input>
 				</div>
 				<el-row type="flex" justify="start" align="middle" class="el-row-pd">
@@ -63,7 +65,7 @@
 					  	<a class="adminIcons adminIcon-weibo"></a>
 					</el-col>
 					<el-col :span="8" class="tr">
-						<router-link to="/register">用已有账号登录</router-link>
+						<router-link to="/">用已有账号登录</router-link>
 					</el-col>
 				</el-row>
 			</div>
@@ -76,9 +78,14 @@ export default {
   name: 'register',
   data () {
     return {
-	  msg: '',
-	  psw: '',
-	  checked: false
+    	msg: {
+    		tel: '',
+	  		regMsg: '',
+	  		pswRepeat: '',
+	  		psw: '',
+	  		nickName: ''
+    	},	  
+	  	checked: false
     }
   }
 }

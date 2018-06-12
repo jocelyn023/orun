@@ -9,10 +9,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+
+require('./mock.js')
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
+})
+
+Vue.filter('getYMD', function (input) {
+  return input.split(' ')[0]
 })
